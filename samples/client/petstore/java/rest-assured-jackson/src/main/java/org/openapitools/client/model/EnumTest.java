@@ -38,17 +38,17 @@ import org.hibernate.validator.constraints.*;
   EnumTest.JSON_PROPERTY_OUTER_ENUM
 })
 @JsonTypeName("Enum_Test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class EnumTest {
   /**
    * Gets or Sets enumString
    */
   public enum EnumStringEnum {
-    UPPER("UPPER"),
+    UPPER(String.valueOf("UPPER")),
     
-    LOWER("lower"),
+    LOWER(String.valueOf("lower")),
     
-    EMPTY("");
+    EMPTY(String.valueOf(""));
 
     private String value;
 
@@ -84,11 +84,11 @@ public class EnumTest {
    * Gets or Sets enumStringRequired
    */
   public enum EnumStringRequiredEnum {
-    UPPER("UPPER"),
+    UPPER(String.valueOf("UPPER")),
     
-    LOWER("lower"),
+    LOWER(String.valueOf("lower")),
     
-    EMPTY("");
+    EMPTY(String.valueOf(""));
 
     private String value;
 
@@ -124,9 +124,9 @@ public class EnumTest {
    * Gets or Sets enumInteger
    */
   public enum EnumIntegerEnum {
-    NUMBER_1(1),
+    NUMBER_1(Integer.valueOf(1)),
     
-    NUMBER_MINUS_1(-1);
+    NUMBER_MINUS_1(Integer.valueOf(-1));
 
     private Integer value;
 
@@ -162,9 +162,9 @@ public class EnumTest {
    * Gets or Sets enumNumber
    */
   public enum EnumNumberEnum {
-    NUMBER_1_DOT_1(1.1),
+    NUMBER_1_DOT_1(Double.valueOf(1.1)),
     
-    NUMBER_MINUS_1_DOT_2(-1.2);
+    NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
 
     private Double value;
 
@@ -208,10 +208,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumString
    * @return enumString
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ENUM_STRING)
@@ -228,17 +228,16 @@ public class EnumTest {
     this.enumString = enumString;
   }
 
-
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     
     this.enumStringRequired = enumStringRequired;
     return this;
   }
 
-   /**
+  /**
    * Get enumStringRequired
    * @return enumStringRequired
-  **/
+   */
   @javax.annotation.Nonnull
   @NotNull
 
@@ -256,17 +255,16 @@ public class EnumTest {
     this.enumStringRequired = enumStringRequired;
   }
 
-
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
     
     this.enumInteger = enumInteger;
     return this;
   }
 
-   /**
+  /**
    * Get enumInteger
    * @return enumInteger
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
@@ -283,17 +281,16 @@ public class EnumTest {
     this.enumInteger = enumInteger;
   }
 
-
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
     
     this.enumNumber = enumNumber;
     return this;
   }
 
-   /**
+  /**
    * Get enumNumber
    * @return enumNumber
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
@@ -310,17 +307,16 @@ public class EnumTest {
     this.enumNumber = enumNumber;
   }
 
-
   public EnumTest outerEnum(OuterEnum outerEnum) {
     
     this.outerEnum = outerEnum;
     return this;
   }
 
-   /**
+  /**
    * Get outerEnum
    * @return outerEnum
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 

@@ -10,8 +10,8 @@
 
 
 use reqwest;
-
-use crate::apis::ResponseContent;
+use serde::{Deserialize, Serialize};
+use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
 
@@ -23,7 +23,7 @@ pub enum ReproError {
 }
 
 
-pub fn repro(configuration: &configuration::Configuration, ) -> Result<crate::models::Parent, Error<ReproError>> {
+pub fn repro(configuration: &configuration::Configuration, ) -> Result<models::Parent, Error<ReproError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;

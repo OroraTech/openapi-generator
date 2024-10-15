@@ -29,20 +29,20 @@ import org.hibernate.validator.constraints.*;
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class BigCat extends Cat {
   /**
    * Gets or Sets kind
    */
   @JsonAdapter(KindEnum.Adapter.class)
   public enum KindEnum {
-    LIONS("lions"),
+    LIONS(String.valueOf("lions")),
     
-    TIGERS("tigers"),
+    TIGERS(String.valueOf("tigers")),
     
-    LEOPARDS("leopards"),
+    LEOPARDS(String.valueOf("leopards")),
     
-    JAGUARS("jaguars");
+    JAGUARS(String.valueOf("jaguars"));
 
     private String value;
 
@@ -96,10 +96,10 @@ public class BigCat extends Cat {
     return this;
   }
 
-   /**
+  /**
    * Get kind
    * @return kind
-  **/
+   */
   @javax.annotation.Nullable
 
 

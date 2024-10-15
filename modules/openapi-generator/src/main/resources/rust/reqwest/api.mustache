@@ -1,8 +1,8 @@
 {{>partial_header}}
 
 use reqwest;
-
-use crate::apis::ResponseContent;
+use serde::{Deserialize, Serialize};
+use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
 {{#operations}}
@@ -17,7 +17,7 @@ pub struct {{{operationIdCamelCase}}}Params {
     {{#description}}
     /// {{{.}}}
     {{/description}}
-    pub {{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^isUuid}}{{#isString}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isString}}{{/isUuid}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{#isBodyParam}}crate::models::{{/isBodyParam}}{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}},{{/-last}}
+    pub {{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^isUuid}}{{#isString}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isString}}{{/isUuid}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}},{{/-last}}
 {{#-last}}
 }
 
@@ -90,7 +90,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
 
 {{/vendorExtensions.x-group-parameters}}
 {{^vendorExtensions.x-group-parameters}}
-pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: &configuration::Configuration, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}{{#isArray}}Vec<{{/isArray}}{{^isUuid}}&str{{/isUuid}}{{#isArray}}>{{/isArray}}{{/isString}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&str{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{#isBodyParam}}crate::models::{{/isBodyParam}}{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> Result<{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{^supportMultipleResponses}}{{^returnType}}(){{/returnType}}{{{returnType}}}{{/supportMultipleResponses}}, Error<{{{operationIdCamelCase}}}Error>> {
+pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: &configuration::Configuration, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}{{#isArray}}Vec<{{/isArray}}{{^isUuid}}&str{{/isUuid}}{{#isArray}}>{{/isArray}}{{/isString}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&str{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> Result<{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{^supportMultipleResponses}}{{^returnType}}(){{/returnType}}{{{returnType}}}{{/supportMultipleResponses}}, Error<{{{operationIdCamelCase}}}Error>> {
     let local_var_configuration = configuration;
 {{/vendorExtensions.x-group-parameters}}
 
@@ -174,7 +174,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
 	    {{/bodyParams}}
 	    {{/hasBodyParam}}
 	    {{^hasBodyParam}}
-	    &"",
+	    "",
 	    {{/hasBodyParam}}
 	    ) {
 	      Ok(new_headers) => new_headers,
@@ -211,6 +211,14 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/hasHeaderParams}}
     {{#hasAuthMethods}}
     {{#authMethods}}
+    {{#supportTokenSource}}
+    // Obtain a token from source provider.
+    // Tokens can be Id or access tokens depending on the provider type and configuration.
+    let token = local_var_configuration.token_source.token().await.map_err(Error::TokenSource)?;
+    // The token format is the responsibility of the provider, thus we just set the authorization header with whatever is given.
+    local_var_req_builder = local_var_req_builder.header(reqwest::header::AUTHORIZATION, token);
+    {{/supportTokenSource}}
+    {{^supportTokenSource}}
     {{#isApiKey}}
     {{#isKeyInHeader}}
     if let Some(ref local_var_apikey) = local_var_configuration.api_key {
@@ -240,6 +248,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     {{/isOAuth}}
+    {{/supportTokenSource}}
     {{/authMethods}}
     {{/hasAuthMethods}}
     {{#isMultipart}}

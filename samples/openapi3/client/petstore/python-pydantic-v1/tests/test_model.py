@@ -177,7 +177,7 @@ class ModelTests(unittest.TestCase):
         except ValueError as e:
             self.assertTrue("ensure this value is less than or equal to 255" in str(e))
 
-        # test from_josn
+        # test from_json
         json_str = '[12,34,56]'
         p = petstore_api.AnyOfColor.from_json(json_str)
         self.assertEqual(p.actual_instance, [12, 34,56])
@@ -186,6 +186,28 @@ class ModelTests(unittest.TestCase):
             p = petstore_api.AnyOfColor.from_json('[2342112,0,0,0]')
         except ValueError as e:
             self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+
+         # test from_json, schema 3
+        json_str = '"#123456"'
+        p = petstore_api.AnyOfColor.from_json(json_str)
+        self.assertIsInstance(p.actual_instance, str)
+        self.assertEqual(p.actual_instance, '#123456')
+
+        # test to_json, schema 3
+        p = petstore_api.AnyOfColor(actual_instance='#123456')
+        self.assertEqual(p.to_json(), '"#123456"')
+
+         # test from_dict, schema 3
+        obj = '#123456'
+        p = petstore_api.AnyOfColor.from_dict(obj)
+        self.assertIsInstance(p.actual_instance, str)
+        self.assertEqual(p.actual_instance, '#123456')
+
+        # test to_dict, schema 3
+        p = petstore_api.AnyOfColor(actual_instance='#123456')
+        self.assertEqual(p.to_dict(), '#123456')
+        p = petstore_api.AnyOfColor.from_dict(p.to_dict())
+        self.assertEqual(p.actual_instance, '#123456')
 
     def test_oneOf(self):
         # test new Pig
@@ -299,6 +321,9 @@ class ModelTests(unittest.TestCase):
                 "__root__\n"
                 "  DanishPig expected dict not int (type=type_error)")
             self.assertEqual(str(e), error_message)
+
+        # test to_dict
+        self.assertEqual(p.to_dict(), {'className': 'BasquePig', 'color': 'red'})
 
         # test to_json
         self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')
@@ -534,3 +559,30 @@ class ModelTests(unittest.TestCase):
         a3.additional_properties = { "xyz": 45.6 }
         self.assertEqual(a3.to_dict(), {"xyz": 45.6})
         self.assertEqual(a3.to_json(), "{\"xyz\": 45.6}")
+
+class TestUnnamedDictWithAdditionalStringListProperties:
+    def test_empty_dict(self):
+        a = petstore_api.UnnamedDictWithAdditionalStringListProperties(dict_property={})
+        assert a.to_dict() == {"dictProperty": {}}
+
+    def test_empty_list(self):
+        a = petstore_api.UnnamedDictWithAdditionalStringListProperties(dict_property={"b": []})
+        assert a.to_dict() == {"dictProperty": {"b": []}}
+
+    def test_single_string_item(self):
+        a = petstore_api.UnnamedDictWithAdditionalStringListProperties(dict_property={"b": ["c"]})
+        assert a.to_dict() == {"dictProperty": {"b": ["c"]}}
+
+class TestUnnamedDictWithAdditionalModelListProperties:
+    def test_empty_dict(self):
+        a = petstore_api.UnnamedDictWithAdditionalModelListProperties(dict_property={})
+        assert a.to_dict() == {"dictProperty": {}}
+
+    def test_empty_list(self):
+        a = petstore_api.UnnamedDictWithAdditionalModelListProperties(dict_property={"b": []})
+        assert a.to_dict() == {"dictProperty": {"b": []}}
+
+    def test_single_string_item(self):
+        value = {"b": [petstore_api.CreatureInfo(name="creature_name")]}
+        a = petstore_api.UnnamedDictWithAdditionalModelListProperties(dict_property=value)
+        assert a.to_dict() == {"dictProperty": {"b": [{"name": "creature_name"}]}}

@@ -37,7 +37,7 @@ import io.github.threetenjaxb.core.*;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 @XmlRootElement(name = "EnumArrays")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "EnumArrays")
@@ -49,10 +49,10 @@ public class EnumArrays {
   @XmlEnum(String.class)
   public enum JustSymbolEnum {
     @XmlEnumValue(">=")
-    GREATER_THAN_OR_EQUAL_TO(">="),
+    GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")),
     
     @XmlEnumValue("$")
-    DOLLAR("$");
+    DOLLAR(String.valueOf("$"));
 
     private String value;
 
@@ -92,10 +92,10 @@ public class EnumArrays {
   @XmlEnum(String.class)
   public enum ArrayEnumEnum {
     @XmlEnumValue("fish")
-    FISH("fish"),
+    FISH(String.valueOf("fish")),
     
     @XmlEnumValue("crab")
-    CRAB("crab");
+    CRAB(String.valueOf("crab"));
 
     private String value;
 
@@ -125,11 +125,8 @@ public class EnumArrays {
   }
 
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
-  // Is a container wrapped=false
-  // items.name=arrayEnum items.baseName=arrayEnum items.xmlName= items.xmlNamespace=
-  // items.example= items.type=String
-  @XmlElement(name = "arrayEnum")
-  private List<ArrayEnumEnum> arrayEnum;
+  @XmlElement(name = "array_enum")
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays() {
   }
@@ -140,10 +137,10 @@ public class EnumArrays {
     return this;
   }
 
-   /**
+  /**
    * Get justSymbol
    * @return justSymbol
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -161,7 +158,6 @@ public class EnumArrays {
     this.justSymbol = justSymbol;
   }
 
-
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
     
     this.arrayEnum = arrayEnum;
@@ -176,10 +172,10 @@ public class EnumArrays {
     return this;
   }
 
-   /**
+  /**
    * Get arrayEnum
    * @return arrayEnum
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

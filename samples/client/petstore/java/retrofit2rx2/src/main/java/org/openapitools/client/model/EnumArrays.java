@@ -28,16 +28,16 @@ import java.util.List;
 /**
  * EnumArrays
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
    */
   @JsonAdapter(JustSymbolEnum.Adapter.class)
   public enum JustSymbolEnum {
-    GREATER_THAN_OR_EQUAL_TO(">="),
+    GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")),
     
-    DOLLAR("$");
+    DOLLAR(String.valueOf("$"));
 
     private String value;
 
@@ -86,9 +86,9 @@ public class EnumArrays {
    */
   @JsonAdapter(ArrayEnumEnum.Adapter.class)
   public enum ArrayEnumEnum {
-    FISH("fish"),
+    FISH(String.valueOf("fish")),
     
-    CRAB("crab");
+    CRAB(String.valueOf("crab"));
 
     private String value;
 
@@ -130,7 +130,7 @@ public class EnumArrays {
 
   public static final String SERIALIZED_NAME_ARRAY_ENUM = "array_enum";
   @SerializedName(SERIALIZED_NAME_ARRAY_ENUM)
-  private List<ArrayEnumEnum> arrayEnum;
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays() {
   }
@@ -141,10 +141,10 @@ public class EnumArrays {
     return this;
   }
 
-   /**
+  /**
    * Get justSymbol
    * @return justSymbol
-  **/
+   */
   @javax.annotation.Nullable
 
   public JustSymbolEnum getJustSymbol() {
@@ -155,7 +155,6 @@ public class EnumArrays {
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
-
 
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
     
@@ -171,10 +170,10 @@ public class EnumArrays {
     return this;
   }
 
-   /**
+  /**
    * Get arrayEnum
    * @return arrayEnum
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<ArrayEnumEnum> getArrayEnum() {
